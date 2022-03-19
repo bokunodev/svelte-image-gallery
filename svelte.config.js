@@ -9,10 +9,6 @@ const config = {
 			fallback: 'index.html',
 			precompress: false
 		}),
-		prerender: {
-			enabled: false,
-			default: false
-		},
 		trailingSlash: 'always',
 	}
 };

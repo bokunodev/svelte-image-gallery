@@ -18,36 +18,37 @@
 
 		const container = node.querySelector('.slider-container');
 
+		const width = container.clientWidth;
+
 		const slider = node.querySelector('.slider');
+		const firstItem = slider.firstChild.cloneNode(true);
+		const lastItem = slider.lastChild.cloneNode(true);
+		slider.append(firstItem);
+		slider.prepend(lastItem);
+
+		slider.style.transform = `translateX(-${offset * width}px)`;
 		const sliderTransition = 'transform .4s ease';
 		slider.style.transition = sliderTransition;
 
-		const firstImg = slider.firstChild.cloneNode(true);
-		const lastImg = slider.lastChild.cloneNode(true);
-
-		slider.append(firstImg);
-		slider.prepend(lastImg);
-
-		const imgs = node.querySelectorAll('img');
+		const items = node.querySelectorAll('.slider-item');
+		const nitems = items.length;
 
 		const counter = node.querySelector('.slider-counter');
-		counter.textContent = `${offset}/${imgs.length - 2}`;
+		counter.textContent = `${offset}/${nitems - 2}`;
 
 		const nextBtn = node.querySelector('.slider-next');
 		const prevBtn = node.querySelector('.slider-prev');
 
-		const width = container.clientWidth;
-
 		nextBtn.onclick = (e) => {
+			if (offset > nitems - 2) return;
 			slider.style.transition = sliderTransition;
-			if (offset > imgs.length - 2) return;
 			offset++;
 			slider.style.transform = `translateX(-${offset * width}px)`;
 		};
 
 		prevBtn.onclick = (e) => {
-			slider.style.transition = sliderTransition;
 			if (offset < 1) return;
+			slider.style.transition = sliderTransition;
 			offset--;
 			slider.style.transform = `translateX(-${offset * width}px)`;
 		};
@@ -55,13 +56,13 @@
 		slider.ontransitionend = (e) => {
 			if (offset < 1) {
 				slider.style.transition = '';
-				offset = imgs.length - 2;
-			} else if (offset > imgs.length - 2) {
+				offset = nitems - 2;
+			} else if (offset > nitems - 2) {
 				slider.style.transition = '';
 				offset = 1;
 			}
-			counter.textContent = `${offset}/${imgs.length - 2}`;
 			slider.style.transform = `translateX(-${offset * width}px)`;
+			counter.tefxtContent = `${offset}/${nitems - 2}`;
 		};
 	}
 </script>
@@ -70,7 +71,9 @@
 	<div class="slider-container">
 		<div class="slider">
 			{#each images as img (img.id)}
-				<img src={img.src} alt={img.ald} />
+				<div class="slider-item">
+					<img src={img.src} alt={img.ald} />
+				</div>
 			{/each}
 		</div>
 	</div>
@@ -89,11 +92,11 @@
 	img {
 		display: inline-block;
 		padding: 0;
-		margin: 0;
+		margin: 5%;
 		object-fit: contain;
-		max-width: 100%;
+		max-width: 90%;
 		width: auto;
-		max-height: 100%;
+		max-height: 90%;
 		height: auto;
 	}
 
@@ -111,7 +114,6 @@
 	}
 
 	.lightbox * {
-		outline: 1pt dashed aqua;
 		box-sizing: inherit;
 		color: inherit;
 	}
@@ -147,7 +149,14 @@
 		display: flex;
 		width: auto;
 		height: 100% !important;
+	}
+
+	.lightbox > .slider-container > .slider > .slider-item {
+		display: flex;
+		height: 100% !important;
+		justify-content: center;
 		align-items: center;
+		flex: 0 0 100% !important;
 	}
 
 	.lightbox > :is(.slider-prev, .slider-next, .lightbox-close, .slider-counter) {
