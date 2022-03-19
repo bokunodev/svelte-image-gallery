@@ -8,15 +8,15 @@
 		{ src: '/images/twitter_rei__k_1476153881331904512_4_thumb.jpg', alt: '...', id: 4 }
 	];
 
-	let show = false;
+	let show = true;
 
 	const toggleLigtbox = () => {
 		show = !show;
 	};
 </script>
 
-{#if show}
-	<Lightbox {images} showCounter={true} on:lightboxClose={toggleLigtbox} />
-{/if}
-
 <button on:click={toggleLigtbox}>show</button>
+
+{#if show}
+	<Lightbox {images} on:lightboxClose={toggleLigtbox} />
+{/if}
