@@ -1,25 +1,29 @@
+<script context="module">
+	export const prerender = false;
+</script>
+
 <script>
 	import { createEventDispatcher } from 'svelte';
 	import { fade } from 'svelte/transition';
 
-	/** @type {Array<{src:string, alt:?string, id:int}>} images */
+	/** @type {Array<{src:string, alt:?string, id:number}>} */
 	export let images = [];
 
-	/** @type {int} start */
+	/** @type {number} */
 	export let start = 0;
 
 	const dispatch = createEventDispatcher();
 
-	/**
-	 * @param {Element} node
-	 */
+	/** @param {HTMLElement} node */
 	export function lightbox(node) {
 		let offset = start + 1;
 
 		const container = node.querySelector('.slider-container');
 
 		const width = container.clientWidth;
+		const height = container.clientHeight;
 
+		/** @type {HTMLElement} */
 		const slider = node.querySelector('.slider');
 		const firstItem = slider.firstChild.cloneNode(true);
 		const lastItem = slider.lastChild.cloneNode(true);
@@ -27,16 +31,23 @@
 		slider.prepend(lastItem);
 
 		slider.style.transform = `translateX(-${offset * width}px)`;
+		slider.style.height = `${height}px`;
+		slider.style.maxHeight = `${height}px`;
 		const sliderTransition = 'transform .4s ease';
-		slider.style.transition = sliderTransition;
 
-		const items = node.querySelectorAll('.slider-item');
+		const items = node.querySelectorAll('img');
+		items.forEach((e) => {
+			e.style.width = `${width}px`;
+			e.style.height = `${height}px`;
+		});
 		const nitems = items.length;
 
 		const counter = node.querySelector('.slider-counter');
 		counter.textContent = `${offset}/${nitems - 2}`;
 
+		/** @type {HTMLElement} */
 		const nextBtn = node.querySelector('.slider-next');
+		/** @type {HTMLElement} */
 		const prevBtn = node.querySelector('.slider-prev');
 
 		nextBtn.onclick = (e) => {
@@ -62,7 +73,7 @@
 				offset = 1;
 			}
 			slider.style.transform = `translateX(-${offset * width}px)`;
-			counter.tefxtContent = `${offset}/${nitems - 2}`;
+			counter.textContent = `${offset}/${nitems - 2}`;
 		};
 	}
 </script>
@@ -72,7 +83,7 @@
 		<div class="slider">
 			{#each images as img (img.id)}
 				<div class="slider-item">
-					<img src={img.src} alt={img.ald} />
+					<img src={img.src} alt={img.alt} loading="lazy" />
 				</div>
 			{/each}
 		</div>
@@ -81,7 +92,7 @@
 	<div class="slider-prev muted-color clickable">&lsaquo;</div>
 	<div
 		class="lightbox-close muted-color clickable"
-		on:click={() => dispatch('lightboxClose', true)}
+		on:click|preventDefault={() => dispatch('lightboxClose', true)}
 	>
 		&times;
 	</div>
@@ -89,129 +100,133 @@
 </div>
 
 <style>
-	img {
-		display: inline-block;
-		padding: 0;
-		margin: 5%;
-		object-fit: contain;
-		max-width: 90%;
-		width: auto;
-		max-height: 90%;
-		height: auto;
-	}
-
 	.clickable {
 		cursor: pointer;
 	}
 
 	.clickable:is(:hover, :focus) {
 		color: aquamarine !important;
-		text-shadow: 0 0 1rem aquamarine;
+		text-shadow: 0 0 1em aqua;
 	}
 
 	.muted-color {
 		color: rgba(255, 255, 255, 0.5) !important;
 	}
 
-	.lightbox * {
-		box-sizing: inherit;
-		color: inherit;
-	}
-
 	.lightbox {
 		display: grid;
 		box-sizing: border-box;
-		z-index: 1025;
+		position: absolute;
+		padding: 0;
+		margin: 0;
+		background-color: rgba(0, 0, 0, 0.5);
+		color: var(--ligt);
+		z-index: 1024;
+		width: 100vw;
+		height: 100vh;
+		grid-template-columns: min-content 1fr min-content;
+		grid-template-rows: 1fr;
+	}
+
+	.slider-next {
+		order: 2;
+		display: flex;
+		box-sizing: border-box;
+		padding: 0;
+		margin: 0;
+		width: 4rem;
+		height: 100%;
+		justify-content: center;
+		align-items: center;
+		font-family: monospace;
+		font-size: 2rem;
+		font-weight: bold;
+	}
+
+	.slider-next:is(:hover, :focus) {
+		background: linear-gradient(to right, rgba(200, 200, 200, 0), rgba(200, 200, 200, 0.7));
+	}
+
+	.slider-prev {
+		order: 0;
+		display: flex;
+		box-sizing: border-box;
+		padding: 0;
+		margin: 0;
+		width: 4rem;
+		height: 100%;
+		justify-content: center;
+		align-items: center;
+		font-family: monospace;
+		font-size: 2rem;
+		font-weight: bold;
+	}
+
+	.slider-prev:is(:hover, :focus) {
+		background: linear-gradient(to left, rgba(200, 200, 200, 0), rgba(200, 200, 200, 0.7));
+	}
+
+	.lightbox-close {
+		display: flex;
+		box-sizing: border-box;
+		padding: 0;
+		margin: 0;
+		width: 4rem;
+		height: 4rem;
+		justify-content: center;
+		align-items: center;
+		position: absolute;
+		top: 0;
+		right: 0;
+		font-family: monospace;
+		font-size: 1.5rem;
+		font-weight: bold;
+	}
+
+	.slider-container {
+		order: 1;
+		display: grid;
+		width: 100%;
+		height: 100%;
+	}
+
+	.slider-counter {
+		display: flex;
+		box-sizing: border-box;
+		padding: 0;
+		margin: 0;
+		width: 4rem;
+		height: 4rem;
+		justify-content: center;
+		align-items: center;
 		position: absolute;
 		top: 0;
 		left: 0;
-		padding: 0;
-		margin: 0;
-		width: 100vw;
-		height: 100vh;
-		background-color: rgba(0, 0, 0, 0.7);
-		color: var(--light);
-		grid-template-columns: min-content 1fr min-content;
-		font-family: sans-serif;
+		color: white;
 	}
 
-	.lightbox > .slider-container {
-		order: 1;
-		display: inline-grid;
-		grid-template-columns: 1fr;
-		grid-template-rows: 1fr;
-		width: 100%;
-		height: 100%;
+	.slider-counter:is(:hover, :focus) {
+		text-shadow: 0 0 1rem white;
+	}
+
+	.slider-container {
+		display: grid;
 		overflow: hidden;
 	}
 
-	.lightbox > .slider-container > .slider {
+	.slider {
 		display: flex;
+		box-sizing: border-box;
 		width: auto;
-		height: 100% !important;
-	}
-
-	.lightbox > .slider-container > .slider > .slider-item {
-		display: flex;
-		height: 100% !important;
-		justify-content: center;
-		align-items: center;
-		flex: 0 0 100% !important;
-	}
-
-	.lightbox > :is(.slider-prev, .slider-next, .lightbox-close, .slider-counter) {
-		display: flex;
-		width: 4rem;
-		margin: 0;
-		padding: 0;
-		justify-content: center;
-		align-items: center;
-	}
-
-	.lightbox > .slider-prev {
-		order: 0;
 		height: 100%;
-		font-size: 2rem;
-		font-weight: bold;
-		font-family: monospace;
+		justify-content: center;
+		align-content: center;
 	}
 
-	.lightbox > .slider-next {
-		order: 2;
-		height: 100%;
-		font-size: 2rem;
-		font-weight: bold;
-		font-family: monospace;
-	}
-
-	.lightbox > .slider-next:is(:hover, :focus) {
-		background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5));
-	}
-
-	.lightbox > .slider-prev:is(:hover, :focus) {
-		background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5));
-	}
-
-	.lightbox > .lightbox-close {
-		position: absolute;
-		height: 4rem;
-		right: 0;
-		font-size: 2rem;
-		font-weight: bold;
-		font-family: monospace;
-		line-height: 1rem;
-	}
-
-	.lightbox > .slider-counter {
-		position: absolute;
-		height: 4rem;
-		left: 0;
-		font-weight: bold;
-		font-family: monospace;
-		line-height: 1rem;
-	}
-
-	.lightbox > .slider-counter:is(:hover, :focus) {
-		text-shadow: 0 0 1rem white;
+	img {
+		display: block;
+		box-sizing: border-box;
+		padding: 2rem;
+		object-fit: contain;
 	}
 </style>

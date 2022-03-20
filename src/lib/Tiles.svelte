@@ -1,24 +1,36 @@
 <script>
-	/** @type {Array<{src:string, alt:?string, id:int}>} images */
+	import { createEventDispatcher } from 'svelte';
+
+	const dispatch = createEventDispatcher();
+
+	/** @type {Array<{src:string, alt:?string, id:number}>} */
 	export let images = [];
 </script>
 
 <div class="tiles">
-	{#each images as img (img.id)}
-		<img src={img.src} alt={img.alt} />
+	{#each images as img, idx (img.id)}
+		<img
+			src={img.src}
+			alt={img.alt}
+			on:click|preventDefault={() => dispatch('tileClick', { index: idx })}
+			loading="lazy"
+		/>
 	{/each}
 </div>
 
 <style>
 	img {
 		display: inline-block;
-		width: 10em;
-		height: 10em;
+		width: 12rem;
+		height: 12rem;
 		object-fit: cover;
+		padding: 0.5rem;
+		border: 1pt solid lightgray;
 	}
 
 	img:is(:hover, :focus) {
-		outline: solid 0.5em rgba(0, 255, 255, 0.5);
+		border-color: gray;
+		box-shadow: 0.1rem 0.1rem 1rem lightgray;
 	}
 
 	.tiles * {
@@ -28,8 +40,9 @@
 	.tiles {
 		display: grid;
 		box-sizing: border-box;
-		grid-template-columns: repeat(auto-fit, 10em);
-		grid-template-rows: 10em;
+		grid-template-columns: repeat(auto-fit, 12em);
+		grid-template-rows: 12rem;
+		justify-content: center;
 		width: 100%;
 		height: 100%;
 		margin: 0;

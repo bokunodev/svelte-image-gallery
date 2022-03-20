@@ -10,7 +10,10 @@ const config = {
 			precompress: false
 		}),
 		trailingSlash: 'always',
-	}
+		prerender: {
+			default: true,
+		}
+	},
 };
 
 export default config;
