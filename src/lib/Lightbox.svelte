@@ -5,6 +5,9 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
 	import { fade } from 'svelte/transition';
+	import HiChevronLeft from './HeroIcon/outline/HiChevronLeft.svelte';
+	import HiChevronRight from './HeroIcon/outline/HiChevronRight.svelte';
+	import HiX from './HeroIcon/outline/HiX.svelte';
 
 	/** @type {Array<{src:string, alt:?string, id:number}>} */
 	export let images = [];
@@ -88,18 +91,41 @@
 			{/each}
 		</div>
 	</div>
-	<div class="slider-next muted-color clickable">&rsaquo;</div>
-	<div class="slider-prev muted-color clickable">&lsaquo;</div>
+	<div
+		class="slider-next muted-color clickable"
+		on:click|preventDefault={() => dispatch('lightboxNext', true)}
+	>
+		<i class="drop-shadow icon"><HiChevronRight /></i>
+	</div>
+	<div
+		class="slider-prev muted-color clickable"
+		on:click|preventDefault={() => dispatch('lightboxPrev', true)}
+	>
+		<i class="drop-shadow icon"><HiChevronLeft /></i>
+	</div>
 	<div
 		class="lightbox-close muted-color clickable"
 		on:click|preventDefault={() => dispatch('lightboxClose', true)}
 	>
-		&times;
+		<i class="drop-shadow icon"><HiX /></i>
 	</div>
 	<div class="slider-counter" />
 </div>
 
 <style>
+	.icon {
+		display: inline-block;
+		box-sizing: border-box;
+		width: 2rem;
+		height: 2rem;
+		padding: 0;
+		margin: 0;
+	}
+
+	.drop-shadow:hover {
+		filter: drop-shadow(0 0 1rem aqua);
+	}
+
 	.clickable {
 		cursor: pointer;
 	}
@@ -138,9 +164,6 @@
 		height: 100%;
 		justify-content: center;
 		align-items: center;
-		font-family: monospace;
-		font-size: 2rem;
-		font-weight: bold;
 	}
 
 	.slider-next:is(:hover, :focus) {
@@ -157,9 +180,6 @@
 		height: 100%;
 		justify-content: center;
 		align-items: center;
-		font-family: monospace;
-		font-size: 2rem;
-		font-weight: bold;
 	}
 
 	.slider-prev:is(:hover, :focus) {

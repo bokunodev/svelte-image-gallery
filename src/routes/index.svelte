@@ -14,9 +14,7 @@
 	let show = false;
 	let index = 0;
 
-	const toggleLigtbox = () => {
-		show = !show;
-	};
+	const toggleLigtbox = () => (show = !show);
 </script>
 
 {#if show}
