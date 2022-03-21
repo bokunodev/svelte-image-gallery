@@ -1,7 +1,3 @@
-<script context="module">
-	export const prerender = false;
-</script>
-
 <script>
 	import { createEventDispatcher } from 'svelte';
 	import { fade } from 'svelte/transition';
@@ -53,21 +49,21 @@
 		/** @type {HTMLElement} */
 		const prevBtn = node.querySelector('.slider-prev');
 
-		nextBtn.onclick = (e) => {
+		nextBtn.onclick = () => {
 			if (offset > nitems - 2) return;
 			slider.style.transition = sliderTransition;
 			offset++;
 			slider.style.transform = `translateX(-${offset * width}px)`;
 		};
 
-		prevBtn.onclick = (e) => {
+		prevBtn.onclick = () => {
 			if (offset < 1) return;
 			slider.style.transition = sliderTransition;
 			offset--;
 			slider.style.transform = `translateX(-${offset * width}px)`;
 		};
 
-		slider.ontransitionend = (e) => {
+		slider.ontransitionend = () => {
 			if (offset < 1) {
 				slider.style.transition = '';
 				offset = nitems - 2;
@@ -122,7 +118,7 @@
 		margin: 0;
 	}
 
-	.drop-shadow:hover {
+	.icon:is(:focus, :hover) {
 		filter: drop-shadow(0 0 1rem aqua);
 	}
 
@@ -145,6 +141,8 @@
 		position: absolute;
 		padding: 0;
 		margin: 0;
+		top: 0;
+		left: 0;
 		background-color: rgba(0, 0, 0, 0.5);
 		color: var(--ligt);
 		z-index: 1024;

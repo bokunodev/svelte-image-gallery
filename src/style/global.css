@@ -1,25 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
-html, body {
-    display: block;
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-    width: 100vw;
-    height: 100vh;
-    overflow: auto;
-    font-family: 'Poppins', sans-serif;
+html,
+body {
+	display: block;
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	width: 100vw;
+	height: 100vh;
+	overflow: auto;
+	font-family: 'Poppins', sans-serif;
 }
 
 :root {
-    --white: hsl(0, 0%, 100%);
-    --black: hsl(0, 0%, 4%);
-    --light: hsl(0, 0%, 96%);
-    --dark: hsl(0, 0%, 21%);
-    --primary: hsl(171, 100%, 41%);
-    --link: hsl(217, 71%, 53%);
-    --info: hsl(204, 86%, 53%);
-    --success: hsl(141, 53%, 53%);
-    --warning: hsl(48, 100%, 67%);
-    --danger: hsl(348, 100%, 61%);
+	--white: hsl(0, 0%, 100%);
+	--black: hsl(0, 0%, 4%);
+	--light: hsl(0, 0%, 96%);
+	--dark: hsl(0, 0%, 21%);
+	--primary: hsl(171, 100%, 41%);
+	--link: hsl(217, 71%, 53%);
+	--info: hsl(204, 86%, 53%);
+	--success: hsl(141, 53%, 53%);
+	--warning: hsl(48, 100%, 67%);
+	--danger: hsl(348, 100%, 61%);
 }

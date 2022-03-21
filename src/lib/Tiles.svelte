@@ -25,11 +25,11 @@
 		height: 12rem;
 		object-fit: cover;
 		padding: 0.5rem;
-		border: 1pt solid lightgray;
+		outline: 1pt solid lightgray;
 	}
 
 	img:is(:hover, :focus) {
-		border-color: gray;
+		outline-color: var(--dark);
 		box-shadow: 0.1rem 0.1rem 1rem lightgray;
 	}
 
