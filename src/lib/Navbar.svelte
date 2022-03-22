@@ -5,13 +5,16 @@
 <nav>
 	<ul>
 		<li class:active={$page.url.pathname === '/'}>
-			<a href="/"> Home </a>
+			<a href="/">Home</a>
 		</li>
 		<li class:active={$page.url.pathname.endsWith('gallery/')}>
 			<a href="/gallery"> Gallery </a>
 		</li>
 		<li class:active={$page.url.pathname.endsWith('summernote/')}>
-			<a href="/summernote"> Summernote </a>
+			<a href="/summernote">Summernote</a>
+		</li>
+		<li class:active={$page.url.pathname.endsWith('backdrop/')}>
+			<a href="/backdrop">Backdrop</a>
 		</li>
 	</ul>
 </nav>

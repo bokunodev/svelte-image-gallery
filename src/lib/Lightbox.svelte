@@ -118,10 +118,6 @@
 		margin: 0;
 	}
 
-	.icon:is(:focus, :hover) {
-		filter: drop-shadow(0 0 1rem aqua);
-	}
-
 	.clickable {
 		cursor: pointer;
 	}
@@ -129,6 +125,10 @@
 	.clickable:is(:hover, :focus) {
 		color: aquamarine !important;
 		text-shadow: 0 0 1em aqua;
+	}
+
+	.clickable .icon:is(:focus, :hover) {
+		filter: drop-shadow(0 0 1rem aqua);
 	}
 
 	.muted-color {
