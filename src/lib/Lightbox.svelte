@@ -220,11 +220,11 @@
 		position: absolute;
 		top: 0;
 		left: 0;
-		color: white;
+		color: var(--light);
 	}
 
 	.slider-counter:is(:hover, :focus) {
-		text-shadow: 0 0 1rem white;
+		text-shadow: 0 0 1rem var(--light);
 	}
 
 	.slider-container {

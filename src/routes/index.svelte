@@ -1,1 +1,1 @@
-<h1>Welcome To Svelte Demo!</h1>
+<h1 style="color:var(--active);">Welcome To Svelte Demo!</h1>

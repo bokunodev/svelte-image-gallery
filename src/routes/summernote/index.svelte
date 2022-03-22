@@ -1,13 +1,12 @@
 <script>
-	/**
-	 * @param {HTMLElement} node
-	 */
+	/** @param {HTMLElement} node */
 	export function initSummernote(node) {
-		/** @type {function(any, any):any} jQuery */
+		// @ts-ignore
 		const editor = jQuery(node).summernote();
 
 		return {
 			destroy() {
+				// @ts-ignore
 				editor.summernote('destroy');
 			},
 		};
