@@ -1,6 +1,6 @@
 <script>
 	import { fade } from 'svelte/transition';
-	import HiX from './HeroIcon/solid/HiX.svelte';
+	import HiX from '../HeroIcon/solid/HiX.svelte';
 </script>
 
 <div class="backdrop" transition:fade>

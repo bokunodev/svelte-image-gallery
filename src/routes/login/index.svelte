@@ -1,5 +1,5 @@
 <script>
-	import HiLockClosed from '$lib/HeroIcon/outline/HiLockClosed.svelte';
+	import HiLockClosed from '$lib/components/HeroIcon/outline/HiLockClosed.svelte';
 
 	const action = 'https://localhost:8000/api/login';
 
@@ -34,9 +34,21 @@
 		<main>
 			<form>
 				<label for="email">Email</label>
-				<input type="email" name="email" placeholder="email@example.com" bind:value={email} />
+				<input
+					type="email"
+					name="email"
+					placeholder="email@example.com"
+					bind:value={email}
+					autocomplete="email"
+				/>
 				<label for="password">Password</label>
-				<input type="password" name="password" placeholder="********" bind:value={password} />
+				<input
+					type="password"
+					name="password"
+					placeholder="********"
+					bind:value={password}
+					autocomplete="current-password"
+				/>
 			</form>
 		</main>
 		<footer>
@@ -111,5 +123,24 @@
 	footer {
 		margin-top: 0.5rem;
 		border-top: 1pt solid lightgray;
+	}
+
+	input {
+		display: block;
+		box-sizing: border-box;
+		width: 100%;
+		padding: 0.5rem 1rem;
+		border-radius: 0.2rem;
+		border: 1pt solid lightgray;
+	}
+
+	input:focus {
+		outline: none;
+		box-shadow: inset 0 0 0.2rem var(--info);
+	}
+
+	input[type='password'] {
+		font-family: 'Roboto Mono', monospace;
+		line-height: 1rem;
 	}
 </style>

@@ -13,9 +13,6 @@
 		<li class:active={$page.url.pathname.endsWith('summernote/')}>
 			<a href="/summernote">Summernote</a>
 		</li>
-		<li class:active={$page.url.pathname.endsWith('backdrop/')}>
-			<a href="/backdrop">Backdrop</a>
-		</li>
 	</ul>
 </nav>
 
@@ -43,6 +40,7 @@
 		padding: 0.5rem 1rem;
 		margin: 0;
 		flex: 1 1 auto;
+		text-align: center;
 	}
 
 	nav > ul > li:is(:hover, :focus) {

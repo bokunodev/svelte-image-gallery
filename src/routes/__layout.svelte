@@ -1,11 +1,37 @@
+<script context="module">
+	export async function load({ url, params, props, fetch, session, stuff }) {
+		return {
+			//status: 307,
+			//redirect: '/login',
+		};
+	}
+</script>
+
 <script>
-	import Navbar from '$lib/Navbar.svelte';
+	import { browser } from '$app/env';
+	import Navbar from '$lib/components/Navbar.svelte';
+	import { onMount } from 'svelte';
 	import '../styles/global.css';
+
+	onMount(async () => {
+		if (browser) {
+			console.log(document.cookie);
+		}
+		//goto('/login');
+	});
+
+	/** @param {HTMLElement} elm */
+	export async function isLoggedIn(elm) {
+		if (browser) {
+			console.log('use');
+		}
+		//goto('/login');
+	}
 </script>
 
 <Navbar />
 
-<div class="container">
+<div class="container" use:isLoggedIn>
 	<slot />
 </div>
 

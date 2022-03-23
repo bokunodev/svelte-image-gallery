@@ -1,6 +1,6 @@
 <script>
-	import Lightbox from '$lib/Lightbox.svelte';
-	import Tiles from '$lib/Tiles.svelte';
+	import Lightbox from '$lib/components/Lightbox.svelte';
+	import Tiles from '$lib/components/Tiles.svelte';
 
 	let images = [
 		{ src: '/images/1.png', alt: '...', id: 1 },
