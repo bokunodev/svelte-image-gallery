@@ -1,7 +1,9 @@
 <script>
+	import { goto } from '$app/navigation';
 	import HiLockClosed from '$lib/components/HeroIcon/outline/HiLockClosed.svelte';
+	import userData from '../../stores/userData';
 
-	const action = 'https://localhost:8000/api/login';
+	const action = 'http://local.pc/api/login';
 
 	$: email = '';
 	$: password = '';
@@ -12,6 +14,7 @@
 		form.append('password', password);
 
 		const resp = await fetch(action, {
+			headers: { Accept: 'application/json' },
 			method: 'POST',
 			body: form,
 		});
@@ -23,6 +26,8 @@
 		}
 
 		console.log(await resp.json());
+		$userData.loggedin = true;
+		await goto('/');
 	};
 </script>
 
@@ -103,6 +108,7 @@
 		margin: 0;
 		border-radius: 0.5rem;
 		border: 1pt solid lightgray;
+		background-color: white;
 	}
 
 	header,

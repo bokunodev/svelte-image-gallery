@@ -1,39 +1,34 @@
-<script context="module">
-	export async function load({ url, params, props, fetch, session, stuff }) {
-		return {
-			//status: 307,
-			//redirect: '/login',
-		};
-	}
-</script>
-
 <script>
-	import { browser } from '$app/env';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import { onMount } from 'svelte';
+	import userData from '../stores/userData';
 	import '../styles/global.css';
 
-	onMount(async () => {
-		if (browser) {
-			console.log(document.cookie);
-		}
-		//goto('/login');
-	});
+	const action = 'http://local.pc/api/cookielogin';
 
-	/** @param {HTMLElement} elm */
-	export async function isLoggedIn(elm) {
-		if (browser) {
-			console.log('use');
+	onMount(async () => {
+		if (!$userData.loggedin && $page.url.pathname !== '/login') {
+			const resp = await fetch(action, { headers: { Accept: 'application/json' } });
+			if (resp.status !== 200) {
+				await goto('/login');
+				return;
+			}
+
+			console.log(await resp.json());
+			$userData.loggedin = true;
 		}
-		//goto('/login');
-	}
+	});
 </script>
 
-<Navbar />
+{#if $userData.loggedin}
+	<Navbar />
 
-<div class="container" use:isLoggedIn>
-	<slot />
-</div>
+	<div class="container">
+		<slot />
+	</div>
+{/if}
 
 <style>
 	.container {
