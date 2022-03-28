@@ -2,6 +2,7 @@
 	import userData from '../../stores/userData';
 	export async function load({ fetch }) {
 		const resp = await fetch('http://svelte-app.localhost/api/cookielogin', {
+			method: 'HEAD',
 			headers: { Accept: 'application/json' },
 		});
 
