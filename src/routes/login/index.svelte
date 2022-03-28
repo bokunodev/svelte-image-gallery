@@ -3,8 +3,6 @@
 	import HiLockClosed from '$lib/components/HeroIcon/outline/HiLockClosed.svelte';
 	import userData from '../../stores/userData';
 
-	const action = 'http://local.pc/api/login';
-
 	$: email = '';
 	$: password = '';
 
@@ -13,6 +11,7 @@
 		form.append('email', email);
 		form.append('password', password);
 
+		const action = 'http://svelte-app.localhost/api/login';
 		const resp = await fetch(action, {
 			headers: { Accept: 'application/json' },
 			method: 'POST',
@@ -32,34 +31,32 @@
 </script>
 
 <div class="grid">
-	<div class="card">
+	<form class="card" on:submit|preventDefault={submitForm}>
 		<header>
 			<i class="icon"><HiLockClosed /></i> Login
 		</header>
 		<main>
-			<form>
-				<label for="email">Email</label>
-				<input
-					type="email"
-					name="email"
-					placeholder="email@example.com"
-					bind:value={email}
-					autocomplete="email"
-				/>
-				<label for="password">Password</label>
-				<input
-					type="password"
-					name="password"
-					placeholder="********"
-					bind:value={password}
-					autocomplete="current-password"
-				/>
-			</form>
+			<label for="email">Email</label>
+			<input
+				type="email"
+				name="email"
+				placeholder="email@example.com"
+				bind:value={email}
+				autocomplete="email"
+			/>
+			<label for="password">Password</label>
+			<input
+				type="password"
+				name="password"
+				placeholder="********"
+				bind:value={password}
+				autocomplete="current-password"
+			/>
 		</main>
 		<footer>
-			<button on:click={submitForm}>Submit</button>
+			<button type="submit">Submit</button>
 		</footer>
-	</div>
+	</form>
 </div>
 
 <style>
@@ -138,6 +135,7 @@
 		padding: 0.5rem 1rem;
 		border-radius: 0.2rem;
 		border: 1pt solid lightgray;
+		font-size: 1em;
 	}
 
 	input:focus {
@@ -147,6 +145,7 @@
 
 	input[type='password'] {
 		font-family: 'Roboto Mono', monospace;
+		font-size: 1em;
 		line-height: 1rem;
 	}
 </style>

@@ -6,19 +6,11 @@
 	import userData from '../stores/userData';
 	import '../styles/global.css';
 
-	const action = 'http://local.pc/api/cookielogin';
-
 	onMount(async () => {
-		if (!$userData.loggedin && $page.url.pathname !== '/login') {
-			const resp = await fetch(action, { headers: { Accept: 'application/json' } });
-			if (resp.status !== 200) {
-				await goto('/login');
-				return;
-			}
-
-			console.log(await resp.json());
-			$userData.loggedin = true;
+		if ($userData.loggedin || $page.url.pathname === '/login') {
+			return;
 		}
+		await goto('/login');
 	});
 </script>
 
