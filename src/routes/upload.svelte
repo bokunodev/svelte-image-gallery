@@ -18,14 +18,14 @@
 	};
 
 	let image;
-	let title = '';
-	let caption = '';
+	let title;
+	let caption;
 
 	const doSubmit = async () => {
 		const body = new FormData();
 		body.append('image[]', image);
-		body.append('title[]', title);
-		body.append('caption[]', caption);
+		title && body.append('title[]', title);
+		caption && body.append('caption[]', caption);
 		await fetch('http://laravel-gallery.localhost/gallery/upload', {
 			mode: 'cors',
 			method: 'POST',
@@ -61,6 +61,7 @@
 							class="form-control form-control-sm"
 							type="file"
 							name="image[]"
+							required
 							on:change={(e) => {
 								// @ts-ignore
 								image = e.target.files[0];
