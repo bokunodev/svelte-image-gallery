@@ -1,0 +1,25 @@
+html,
+body {
+	display: block;
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	width: 100vw;
+	height: 100vh;
+	color: darkslategray;
+	background-color: whitesmoke;
+	font-size: 16px;
+	font-family: 'Poppins', sans-serif;
+}
+
+._toastBtn {
+	font-size: 200%;
+	width: 4rem !important;
+	height: 4rem !important;
+	font: 1em monospace !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	cursor: pointer !important;
+	outline: none !important;
+}
