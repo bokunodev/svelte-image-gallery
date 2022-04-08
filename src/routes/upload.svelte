@@ -18,15 +18,32 @@
 		toast.push(`Upload Success!`);
 	};
 
-	let image;
-	let title;
-	let caption;
+	/**
+	 * NOTE: Only HTMLInputElement are allowed to have `.form-control` class
+	 */
+
+	/** @type {HTMLElement} */
+	let formBody;
+	/** @type {HTMLElement} */
+	let formInputs;
+	let formCount = 0;
 
 	const doSubmit = async () => {
 		const body = new FormData();
-		body.append('image[]', image);
-		title && body.append('title[]', title);
-		caption && body.append('caption[]', caption);
+
+		formBody.querySelectorAll('.form-control').forEach(
+			(
+				/** @type {HTMLInputElement} */
+				each
+			) => {
+				if (each.type === 'file') {
+					body.append(each.name, each.files[0]);
+					return;
+				}
+				body.append(each.name, each.value || '');
+			}
+		);
+
 		await fetch('http://laravel-gallery.localhost/gallery/upload', {
 			mode: 'cors',
 			method: 'POST',
@@ -46,16 +63,6 @@
 				notifyError(err);
 			});
 	};
-
-	/**
-	 * NOTE: Only inputs could have `.form-control` class
-	 */
-
-	/** @type {HTMLElement} */
-	let formBody;
-	/** @type {HTMLElement} */
-	let formInputs;
-	let formCount = 0;
 </script>
 
 <SvelteToast />
@@ -115,8 +122,12 @@
 							// dont remove element if its the only one
 							// reset their value instead
 							if (formCount < 1) {
-								// @ts-ignore
-								formInputs.querySelectorAll('.form-control').forEach((e) => (e.value = ''));
+								formInputs.querySelectorAll('.form-control').forEach(
+									(
+										/** @type {HTMLInputElement} */
+										each
+									) => (each.value = '')
+								);
 								return;
 							}
 							formBody.lastElementChild.remove();
