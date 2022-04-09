@@ -1,14 +1,25 @@
 <script>
 	import { LightboxStore } from '$lib/components/Lightbox/LightboxStore';
 
-	/** @type {Array<{id:number,src:string,title:string,mimetype:string,caption:string,uploaded_at:string}>} */
+	/**
+	 * @typedef {object} ImageObj
+	 * @property {number} id
+	 * @property {string} mimetype
+	 * @property {string} fileurl
+	 * @property {string} filename
+	 * @property {string} title
+	 * @property {string} caption
+	 * @property {string} uploaded_at
+	 */
+
+	/** @type {ImageObj[]} */
 	export let images = [];
 </script>
 
 <div class="tiles">
 	{#each images as img, idx (img.id)}
 		<img
-			src={img.src}
+			src={img.fileurl}
 			alt={img.title}
 			on:click|preventDefault={() => {
 				LightboxStore.set({ show: true, start: idx });
@@ -28,7 +39,7 @@
 	}
 
 	img:is(:hover, :focus) {
-		box-shadow: inset 0 0 0 0.2rem rgba(0, 0, 0, 0.3);
+		box-shadow: inset 0 0 0 0.2rem rgba(100, 100, 100, 0.3);
 	}
 
 	.tiles * {

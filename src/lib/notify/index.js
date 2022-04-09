@@ -2,7 +2,7 @@ import { toast } from "@zerodevx/svelte-toast";
 
 /** @param {string} err */
 export const notifyError = (err) => {
-    toast.push(`Upload Failed! "${err}"`, {
+    toast.push(err, {
         duration: 20000,
         theme: {
             '--toastColor': '#FFDDDD',

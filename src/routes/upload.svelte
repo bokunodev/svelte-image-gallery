@@ -33,7 +33,7 @@
 
 		if (!res.ok || res.status > 299) {
 			console.error(res.status, res.statusText);
-			notifyError(res.statusText);
+			notifyError(`${res.status} ${res.statusText}`);
 			return;
 		}
 
