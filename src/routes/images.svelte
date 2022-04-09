@@ -4,5 +4,5 @@
 </script>
 
 <div class="container">
-	<Tiles images={$imageStore} />
+	<Tiles images={$imageStore.data} />
 </div>
