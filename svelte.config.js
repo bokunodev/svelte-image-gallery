@@ -12,6 +12,7 @@ const config = {
 		trailingSlash: 'never',
 		prerender: {
 			default: false,
+			enabled: false
 		}
 	}
 };

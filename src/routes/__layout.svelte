@@ -2,8 +2,12 @@
 	import Footer from '$lib/components/Footer/Footer.svelte';
 	import Navbar from '$lib/components/Navbar/Navbar.svelte';
 	import '$lib/css/global.css';
+	import { SvelteToast } from '@zerodevx/svelte-toast';
 </script>
 
+<div>
+	<SvelteToast />
+</div>
 <div class="grid">
 	<header>
 		<slot name="header">

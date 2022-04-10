@@ -1,7 +1,6 @@
 <script>
 	import Icon from '$lib/components/Icon/Icon.svelte';
 	import { notifyError, notifySuccess } from '$lib/notify';
-	import { SvelteToast } from '@zerodevx/svelte-toast';
 
 	/**
 	 * NOTE: Only HTMLInputElement are allowed to have `.form-control` class
@@ -39,15 +38,40 @@
 
 		notifySuccess('Upload Success!');
 	};
-</script>
 
-<SvelteToast />
+	const addNewInputs = () => {
+		const newInputs = formInputs.cloneNode(true);
+		// reset input all value after clone
+		// @ts-ignore
+		newInputs.querySelectorAll('.form-control').forEach(
+			(
+				/** @type {HTMLInputElement} */
+				each
+			) => (each.value = '')
+		);
+		formBody.appendChild(newInputs);
+		formCount++;
+	};
+
+	const removeLastInputs = () => {
+		// dont remove element if its the only one
+		// reset their value instead
+		if (formCount < 1) {
+			formInputs
+				.querySelectorAll('.form-control')
+				.forEach((/** @type {HTMLInputElement} */ each) => (each.value = ''));
+			return;
+		}
+		formBody.lastElementChild.remove();
+		formCount--;
+	};
+</script>
 
 <div class="container">
 	<div class="row my-3">
 		<div class="col col-12 col-md-8 col-xl-6 mx-auto">
 			<!--
-			to catch on:submit event, must call stopPropagation,
+			NOTE: to catch on:submit event, must call stopPropagation,
 			to prevent chrome from submiting the form for twice.
 			-->
 			<form class="card" on:submit|preventDefault|stopPropagation={doSubmit}>
@@ -56,7 +80,13 @@
 					<div bind:this={formInputs}>
 						<div class="mb-2">
 							<label for="image[]">Image</label>
-							<input class="form-control form-control-sm" type="file" name="image[]" required />
+							<input
+								class="form-control form-control-sm"
+								type="file"
+								name="image[]"
+								required
+								accept=".webp,.png,.jpg,.apng,.gif,.avif"
+							/>
 						</div>
 						<div class="mb-2">
 							<label for="title[]">Title</label>
@@ -65,6 +95,7 @@
 								type="text"
 								name="title[]"
 								placeholder="Beach Scenery"
+								maxlength="100"
 							/>
 						</div>
 						<div class="mb-2">
@@ -72,6 +103,7 @@
 							<textarea
 								class="form-control form-control-sm"
 								name="caption[]"
+								maxlength="200"
 								rows="1"
 								placeholder="Beautiful day on the beach with friends"
 							/>
@@ -81,41 +113,12 @@
 				</div>
 				<div class="card-footer">
 					<button class="btn btn-sm btn-primary" type="submit">Submit</button>
-					<button
-						class="btn btn-sm btn-outline-primary"
-						on:click={() => {
-							const newInputs = formInputs.cloneNode(true);
-							// reset input all value after clone
-							// @ts-ignore
-							newInputs.querySelectorAll('.form-control').forEach(
-								(
-									/** @type {HTMLInputElement} */
-									each
-								) => (each.value = '')
-							);
-							formBody.appendChild(newInputs);
-							formCount++;
-						}}
-					>
+					<span class="btn btn-sm btn-outline-primary" on:click={addNewInputs}>
 						<Icon>+</Icon>
-					</button>
-					<button
-						class="btn btn-sm btn-outline-success"
-						on:click={() => {
-							// dont remove element if its the only one
-							// reset their value instead
-							if (formCount < 1) {
-								formInputs
-									.querySelectorAll('.form-control')
-									.forEach((/** @type {HTMLInputElement} */ each) => (each.value = ''));
-								return;
-							}
-							formBody.lastElementChild.remove();
-							formCount--;
-						}}
-					>
+					</span>
+					<span class="btn btn-sm btn-outline-success" on:click={removeLastInputs}>
 						<Icon>-</Icon>
-					</button>
+					</span>
 				</div>
 			</form>
 		</div>

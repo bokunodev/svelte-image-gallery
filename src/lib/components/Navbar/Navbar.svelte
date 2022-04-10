@@ -1,5 +1,5 @@
 <script>
-	import Icon from '../Icon/Icon.svelte';
+	import Icon from '$lib/components/Icon/Icon.svelte';
 
 	let expand = false;
 </script>
